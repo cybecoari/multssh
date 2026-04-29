@@ -13,13 +13,12 @@ barra="\033[0m\e[34m━━━━━━━━━━━━━━━━━━━━
 echo "/root/install.sh" > /bin/mko && chmod +x /bin/mko > /dev/null 2>&1
 
 # ============================================================
-# Função para validar chave via API (corrigida para aceitar espaços)
+# Função para validar chave via API (corrigida)
 # ============================================================
 validar_chave() {
     local chave=$1
     local resposta=$(curl -s "https://cybercoari.app.br/api/validar.php?key=${chave}")
     
-    # Aceita "valida":true, "valida": true, "valida" : true, etc.
     if echo "$resposta" | grep -qE '"valida"[[:space:]]*:[[:space:]]*true'; then
         return 0
     else
@@ -28,7 +27,7 @@ validar_chave() {
 }
 
 # ============================================================
-# Função para solicitar e verificar a chave (chamada no início)
+# Função para solicitar e verificar a chave
 # ============================================================
 obter_e_validar_chave() {
     if [[ -n "$CHAVE_VALIDADA" ]]; then
@@ -72,7 +71,6 @@ obter_e_validar_chave() {
 # ============================================================
 SSHPRO () {
     echo -e "\033[1;36mInstalando SSH PRO...\033[0m"
-    # Exemplo: wget https://cybercoari.app.br/scripts/Pro-ssh && bash Pro-ssh
     echo "--- Comandos de instalação do SSH CYBERCOARI PRO ---"
     sleep 2
 }
@@ -133,7 +131,7 @@ SINCPLUS () {
 }
 
 # ============================================================
-# VALIDAÇÃO ANTECIPADA: só entra no menu se a chave for válida
+# VALIDAÇÃO ANTECIPADA
 # ============================================================
 clear
 echo -e "\033[1;34mVerificando autorização...\033[0m"
@@ -145,19 +143,18 @@ if ! obter_e_validar_chave; then
 fi
 
 # ============================================================
-# Menu principal com BANNER CYBERCOARI (arte ASCII legível)
+# Menu principal com banner CYBERCOARI (limpo e legível)
 # ============================================================
 while true; do
     clear
-    # Banner estilizado CYBERCOARI - versão legível
-    echo -e "\033[0;36m"
+    echo -e "\033[1;36m"
     echo "   ██████╗██╗   ██╗██████╗ ███████╗██████╗  ██████╗ ██████╗  █████╗ ██████╗ ██╗"
     echo "  ██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗██╔════╝ ██╔══██╗██╔══██╗██╔══██╗██║"
     echo "  ██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝██║  ███╗██████╔╝███████║██████╔╝██║"
     echo "  ██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗██║   ██║██╔══██╗██╔══██║██╔══██╗██║"
     echo "  ╚██████╗   ██║   ██████╔╝███████╗██║  ██║╚██████╔╝██║  ██║██║  ██║██║  ██║██║"
     echo "   ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝"
-    echo -e "\033[1;33m                    CYBERCOARI - SPEED E CONEXÃO\033[0m"
+    echo -e "\033[1;33m                   CYBERCOARI - SPEED E CONEXÃO\033[0m"
     echo -e "\033[0;34m╔══════════════════════════════════════════════════════════════╗\033[0m"
     echo -e "\033[1;31m \E[1;31;40m                   ⇱ VELOCIDADE E CONEXAO ⇲                  \E[0m \033[1;37m"
     echo -e "\033[0;34m╠══════════════════════════════════════════════════════════════╣\033[0m"
@@ -175,7 +172,7 @@ while true; do
     echo -e "\033[0;34m╚══════════════════════════════════════════════════════════════╝\033[0m"
     echo -e ""
     echo -e "\033[0;34m╔══════════════════════════════════════════════════════════════╗\033[0m"
-    echo -e "\033[1;31m \E[1;31;40m          COMPRE SUA KEY \033[1;36m(TELEGRAM)\033[1;31m: \033[1;37m@cybercoari                  \E[0m \033[1;37m"
+    echo -e "\033[1;31m \E[1;31;40m          COMPRE SUA KEY \033[1;36m(TELEGRAM)\033[1;31m: \033[1;37m@cybercoari1                  \E[0m \033[1;37m"
     echo -e "\033[0;34m╚══════════════════════════════════════════════════════════════╝\033[0m"
     echo -ne "\033[1;32m O QUE DESEJA FAZER \033[1;33m?\033[1;31m?\033[1;37m : "
     read x
