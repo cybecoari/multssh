@@ -143,11 +143,10 @@ if ! obter_e_validar_chave; then
 fi
 
 # ============================================================
-# Menu principal com banner CYBERCOARI (limpo e sem erros)
+# Menu principal (com saída pela tecla C)
 # ============================================================
 while true; do
     clear
-    # Banner em letras grandes com figlet? Não, vamos usar um desenho simples e garantido.
     echo -e "\033[1;36m
     ╔════════════════════════════════════════════════════════════════╗
     ║                    ██████╗██╗   ██╗██████╗ ███████╗██████╗     ║
@@ -173,7 +172,7 @@ while true; do
     echo -e "\033[00;34m║\033[1;31m[\033[1;37m 08 •\033[1;31m]\033[1;37m ➩ \033[1;33m LIMPAR VPS \033[1;37m \033[0;32m                                       \033[00;34m║"
     echo -e "\033[00;34m║\033[1;31m[\033[1;37m 09 •\033[1;31m]\033[1;37m ➩ \033[1;37m MENU \033[0;32m                                              \033[00;34m║"
     echo -e "\033[0;34m╠══════════════════════════════════════════════════════════════╣\033[0m"
-    echo -e "\033[0;34m║\033[5;34;47m     A ➩ SINC PRO   ║    B ➩ SINC PLUS    ║    00 ➩ SAIR      \033[0m║\033[0m"
+    echo -e "\033[0;34m║\033[5;34;47m     A ➩ SINC PRO   ║    B ➩ SINC PLUS    ║    C ➩ SAIR       \033[0m║\033[0m"
     echo -e "\033[0;34m╚══════════════════════════════════════════════════════════════╝\033[0m"
     echo -e ""
     echo -e "\033[0;34m╔══════════════════════════════════════════════════════════════╗\033[0m"
@@ -183,26 +182,33 @@ while true; do
     read x
 
     case "$x" in
-        0 | 00)
+        c|C)
             echo -e "\033[1;31mSaindo...\033[0m"
             sleep 2
             clear
             exit 0
             ;;
-        9 | 09)
+        9|09)
             clear
             continue
             ;;
-        a | A | b | B)
+        a|A)
             if ! obter_e_validar_chave; then
                 echo -e "\033[1;31mAcesso negado. Chave inválida.\033[0m"
                 sleep 2
                 continue
             fi
-            case "$x" in
-                a|A) SINCPRO ;;
-                b|B) SINCPLUS ;;
-            esac
+            SINCPRO
+            echo -e "\033[1;32mConcluído! Pressione enter para continuar...\033[0m"
+            read -s
+            ;;
+        b|B)
+            if ! obter_e_validar_chave; then
+                echo -e "\033[1;31mAcesso negado. Chave inválida.\033[0m"
+                sleep 2
+                continue
+            fi
+            SINCPLUS
             echo -e "\033[1;32mConcluído! Pressione enter para continuar...\033[0m"
             read -s
             ;;
