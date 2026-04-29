@@ -235,5 +235,12 @@ while true; do
             echo -e "\033[1;31mOpção inválida!\033[0m"
             sleep 2
             ;;
+DESINSTALAR() {
+    echo -e "\033[1;33mRemovendo todos os arquivos do instalador...\033[0m"
+    rm -f /root/install.sh /root/key.txt /bin/mko
+    echo -e "\033[1;32mInstalador removido. O script será encerrado.\033[0m"
+    sleep 2
+    exit 0
+}
     esac
 done
