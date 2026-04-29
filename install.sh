@@ -13,13 +13,14 @@ barra="\033[0m\e[34m━━━━━━━━━━━━━━━━━━━━
 echo "/root/install.sh" > /bin/mko && chmod +x /bin/mko > /dev/null 2>&1
 
 # ============================================================
-# Função para validar chave via API
+# Função para validar chave via API (corrigida para aceitar espaços)
 # ============================================================
 validar_chave() {
     local chave=$1
     local resposta=$(curl -s "https://cybercoari.app.br/api/validar.php?key=${chave}")
     
-    if echo "$resposta" | grep -q '"valida":true'; then
+    # Aceita "valida":true, "valida": true, "valida" : true, etc.
+    if echo "$resposta" | grep -qE '"valida"[[:space:]]*:[[:space:]]*true'; then
         return 0
     else
         return 1
@@ -27,7 +28,7 @@ validar_chave() {
 }
 
 # ============================================================
-# Função para solicitar e verificar a chave (agora chamada no início)
+# Função para solicitar e verificar a chave (chamada no início)
 # ============================================================
 obter_e_validar_chave() {
     if [[ -n "$CHAVE_VALIDADA" ]]; then
@@ -144,19 +145,19 @@ if ! obter_e_validar_chave; then
 fi
 
 # ============================================================
-# Menu principal (só chega aqui se a chave for válida)
+# Menu principal com BANNER CYBERCOARI (arte ASCII legível)
 # ============================================================
 while true; do
     clear
-    # Banner estilizado CYBERCOARI
-    echo -e "\033[0;92m"
+    # Banner estilizado CYBERCOARI - versão legível
+    echo -e "\033[0;36m"
     echo "   ██████╗██╗   ██╗██████╗ ███████╗██████╗  ██████╗ ██████╗  █████╗ ██████╗ ██╗"
     echo "  ██╔════╝╚██╗ ██╔╝██╔══██╗██╔════╝██╔══██╗██╔════╝ ██╔══██╗██╔══██╗██╔══██╗██║"
     echo "  ██║      ╚████╔╝ ██████╔╝█████╗  ██████╔╝██║  ███╗██████╔╝███████║██████╔╝██║"
     echo "  ██║       ╚██╔╝  ██╔══██╗██╔══╝  ██╔══██╗██║   ██║██╔══██╗██╔══██║██╔══██╗██║"
     echo "  ╚██████╗   ██║   ██████╔╝███████╗██║  ██║╚██████╔╝██║  ██║██║  ██║██║  ██║██║"
     echo "   ╚═════╝   ╚═╝   ╚═════╝ ╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝  ╚═╝╚═╝"
-    echo -e "\033[0m"
+    echo -e "\033[1;33m                    CYBERCOARI - SPEED E CONEXÃO\033[0m"
     echo -e "\033[0;34m╔══════════════════════════════════════════════════════════════╗\033[0m"
     echo -e "\033[1;31m \E[1;31;40m                   ⇱ VELOCIDADE E CONEXAO ⇲                  \E[0m \033[1;37m"
     echo -e "\033[0;34m╠══════════════════════════════════════════════════════════════╣\033[0m"
@@ -191,8 +192,6 @@ while true; do
             continue
             ;;
         a | A | b | B)
-            # Como a chave já foi validada no início, essas chamadas são opcionais.
-            # Mas mantemos para segurança (caso o script seja chamado recursivamente).
             if ! obter_e_validar_chave; then
                 echo -e "\033[1;31mAcesso negado. Chave inválida.\033[0m"
                 sleep 2
