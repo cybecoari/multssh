@@ -227,6 +227,9 @@ while true; do
                 6|06) HABILITARROOT ;;
                 7|07) ATTSSL ;;
                 8|08) LIMPARVPS ;;
+                10)
+    DESINSTALAR
+    ;;
             esac
             echo -e "\033[1;32mOperação finalizada. Pressione enter para voltar ao menu...\033[0m"
             read -s
